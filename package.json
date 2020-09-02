@@ -1,6 +1,5 @@
 {
   "name": "facerecognition",
-  "homepage": "https://wellingtonlopes.github.io/facerecognitionwebapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +17,7 @@
   },
   "scripts": {
     "start": "serve -s build",
-    "dev": "react-scripts start",
+    "start:dev": "react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
