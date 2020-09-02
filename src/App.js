@@ -91,26 +91,30 @@ class App extends Component {
 
     onPictureSubmit = async () => {
         this.setState({imageUrl: this.state.input});
-        const response = await fetch('http://localhost:3000/imageurl', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                input: this.state.input
-            })
-        });
-        const responsejson = await response.json();
-        if (responsejson) {
-            const res = await fetch('http://localhost:3000/image', {
-                method: 'put',
+        try {
+            const response = await fetch('https://cryptic-oasis-67518.herokuapp.com/imageurl', {
+                method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    id: this.state.user.id
+                    input: this.state.input
                 })
             });
-            const count = await res.json();
-            this.setState(Object.assign(this.state.user, { entries: count }))
+            const responsejson = await response.json();
+            if (responsejson.status) {
+                const res = await fetch('https://cryptic-oasis-67518.herokuapp.com/image', {
+                    method: 'put',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        id: this.state.user.id
+                    })
+                });
+                const count = await res.json();
+                this.setState(Object.assign(this.state.user, { entries: count }))
+            }
+            this.displayFaceBoundary(this.calculateFaceLocation(responsejson));
+        } catch (error) {
+            console.log(error, 'picture address could not be loaded');
         }
-        this.displayFaceBoundary(this.calculateFaceLocation(responsejson));
     }
 
     onRouteChange = (route) => {
